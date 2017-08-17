@@ -1,0 +1,24 @@
+{
+  "name": "recline",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./source/start.js"
+  },
+  "description": "Recline",
+  "author": {
+    "name": "Luke Briggs"
+  },
+  "dependencies": {
+    "body-parser": "~1.8.1",
+    "cookie-parser": "~1.3.3",
+    "debug": "~2.0.0",
+    "express": "~4.9.0",
+    "glob": "^7.1.2",
+    "morgan": "~1.3.0",
+    "mysql": "^2.14.1",
+    "nodemailer": "^4.0.1",
+    "stream-body-parser": "0.0.1",
+    "stream-transcoder": "0.0.5"
+  }
+}
