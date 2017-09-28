@@ -1,9 +1,7 @@
-module.exports = recline => {
+module.exports = app => (request, response) => {
+	if(!request.user){
+		return response.error('user/noCookie');
+	}
 	
-	return (req, res) => {
-		res.send({
-			hello: 'Hello World!'
-		});
-	};
-	
+	response.send(app.outputUser(request.user));
 };

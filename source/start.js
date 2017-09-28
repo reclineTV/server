@@ -18,6 +18,11 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+// Include pretty console early so it can start 
+// outputting nice messages (The green [OK]) straight away:
+require('./modules/prettyConsole');
+
 var expressHttp = express();
 expressHttp.use(logger('dev'));
 expressHttp.use(bodyParser.json());
@@ -35,13 +40,15 @@ recline.settings = require('./settings.js')(recline);
 require('./modules/database')(recline);
 require('./modules/templates')(recline);
 require('./modules/email')(recline);
+require('./modules/user')(recline);
+require('./modules/ranks')(recline);
+
 // require('./modules/transcode')(recline);
 
 // Step 4. Grab the routes - these state which API endpoints are available:
 require('./modules/routes')(recline);
 
-// Step 5. Fire up post modules:
-require('./modules/errors')(recline);
-
 // Step 6. Start listening for web traffic!
 expressHttp.listen(recline.settings.port);
+
+console.ok('Recline started');

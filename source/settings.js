@@ -3,9 +3,9 @@ module.exports = app => ({
 	// Database settings:
 	database: {
 		host: 'localhost',
-		user: '',
+		user: 'recliner',
 		password: '',
-		database: ''
+		database: 'recline'
 	},
 	
 	// Email sending:
@@ -21,7 +21,7 @@ module.exports = app => ({
 				rejectUnauthorized: true
 			}
 		},
-		from: 'Recline <recline@example.com>'
+		from: 'Recline <springs@recline.tv>'
 	},
 	
 	// SMS send/ receive:
@@ -36,6 +36,6 @@ module.exports = app => ({
 	},
 	
 	// The server port:
-	port: 4242,
+	port: 80,
 	
 })

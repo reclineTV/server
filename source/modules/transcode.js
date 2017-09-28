@@ -1,13 +1,13 @@
 var Transcoder = require('stream-transcoder');
 var streamBodyParser = require('stream-body-parser');
 
-module.exports = recline => {
+module.exports = app => {
 	
-	var streamParser = new streamBodyParser(recline);
+	var streamParser = new streamBodyParser(app);
 	streamParser.process('video/*', (stream, req, next) => {
 		
 		// Assign it a harddrive/ number:
-		// recline.database.
+		// app.database.
 		
 		new Transcoder(stream)
 			// .maxSize(320, 240)

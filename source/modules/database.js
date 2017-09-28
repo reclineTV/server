@@ -99,11 +99,51 @@ function insertString(fields,existingArgs) {
 
 module.exports = app => {
 	// Exports:
-	var exports = connect(app.settings.database);
+	
+	var config = app.settings.database;
+	
+	var dbSettings = Object.assign({multipleStatements: true}, config);
+	
+	var exports = connect(dbSettings);
 	
 	// Add our extra methods:
 	exports.insertString = insertString;
 	exports.fieldString = fieldString;
 	exports.fields = fields;
-	return exports;
+	exports.insertOrUpdate = function(table, fields, done) {
+		
+		if(fields.id){
+			var id = parseInt(fields.id);
+			
+			// Build the set of update fields:
+			var fieldStr = fieldString(fields);
+			
+			// Append id:
+			fieldStr.args.push(id);
+			
+			// Run the update query now:
+			exports.query(
+				'UPDATE ' + table + ' SET ' + fieldStr.fields + ' WHERE id = ?',
+				fieldStr.args,
+				function(err, results) {
+					done(err, id);
+				}
+			);
+			
+		}else{
+			// Build the set of insert fields:
+			var insertStr = insertString(fields);
+			
+			// Run the query now:
+			exports.query(
+				'INSERT INTO ' + table + ' (' + insertStr.fields + ') VALUES (' + insertStr.parameters + ')',
+				insertStr.args,
+				function(err, results) {
+					done(err, !err ? results.insertId : undefined);
+				}
+			);
+		}
+		
+	};
+	app.database = exports;
 };
