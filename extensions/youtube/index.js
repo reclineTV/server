@@ -8,16 +8,10 @@ module.exports=app => {
 		constructor(settings) {
 			this.url = 'https://www.youtube.com/';
 			this.settings = settings;
-			//this.ping();
-			
-			// const fs = require("fs");
-			// app.transcode(this.stream('aeWmdojEJf0')).pipe(fs.createWriteStream('aeWmdojEJf0-transcoded.mp4'));
-			
 		}
 		
 		/* Sends a request to Youtube */
 		fetch(url, options) {
-			console.log('Request Youtube');
 			return fetch(this.url + url, options);
 		}
 		
