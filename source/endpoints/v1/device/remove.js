@@ -1,5 +1,5 @@
 module.exports = app => (request, response) => {
-	// Delete a client.
+	// Delete a device.
 	
 	const {
 		id
@@ -13,10 +13,10 @@ module.exports = app => (request, response) => {
 		return response.error('action/notAuthorized');
 	}
 	
-	app.database.query('UPDATE clients SET deleted=1 WHERE id=?', [id], (err, results) => {
+	app.database.query('UPDATE devices SET deleted=1 WHERE id=?', [id], (err, results) => {
 		if(err){
 			// E.g. it didn't exist.
-			return response.error('client/notFound');
+			return response.error('device/notFound');
 		}
 		
 		// Ok!

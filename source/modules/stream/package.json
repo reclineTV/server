@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+	"./modules/transcode": "~1.0.0",
+	"./modules/database": "~1.0.0"
+  }
+}

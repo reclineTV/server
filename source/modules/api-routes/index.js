@@ -1,6 +1,6 @@
 var glob = require('glob');
 
-module.exports = app => {
+module.exports = app => new Promise((success, reject) => {
 	
 	// Express - the webserver helper library - is at app.express:
 	var express = app.express;
@@ -18,7 +18,7 @@ module.exports = app => {
 			target = target.substring('source/endpoints'.length);
 			
 			// Get (and setup) the module now. The request method expects (request, response) - the standard express handler:
-			var requestMethod = require('../../' + path)(app);
+			var requestMethod = require('../../../' + path)(app);
 			
 			var requestMethodWithAuth = (req, resp) => {
 				
@@ -59,7 +59,7 @@ module.exports = app => {
 		
 		// Catch all for any missing responses:
 		express.get('*', err).post('*', err);
-		
+		success();
 	});
 	
-}
+});

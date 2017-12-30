@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "./modules/pretty-console": "~1.0.0"
+  }
+}

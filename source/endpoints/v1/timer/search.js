@@ -1,6 +1,6 @@
 module.exports = app => (request, response) => {
 	
-	// Search clients/
+	// Search timers
 	
 	if(!request.user){
 		return response.error('action/notAuthorized');
@@ -13,7 +13,7 @@ module.exports = app => (request, response) => {
 	query = (query || '') + '%';
 	
 	app.database.query(
-		'select * from clients where `name` like ?',
+		'select * from timers where `name` like ?',
 		[query],
 		(err, results) => {
 			response.send(results);

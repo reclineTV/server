@@ -1,5 +1,5 @@
 module.exports = app => (request, response) => {
-	// Update or create clients.
+	// Update or create timers.
 	// What the endpoint does depends if ID is provided or not.
 	// note that 'update' endpoints are aliased as 'add' too.
 	
@@ -9,20 +9,38 @@ module.exports = app => (request, response) => {
 	
 	let {
 		id,
-		name,
+		title,
+		description,
+		mediaId,
+		titleToRecord,
+		blockReplays,
+		previousDescription,
+		cronSchedule,
+		streamId,
+		provider,
+		duration
 	} = request.body;
 	
 	var created = !id ? new Date() : undefined;
 	
 	// Insert/ update now:
-	app.database.insertOrUpdate('clients', {
+	app.database.insertOrUpdate('timers', {
 		id,
-		name,
+		title,
+		description,
+		mediaId,
+		titleToRecord,
+		blockReplays,
+		previousDescription,
+		cronSchedule,
+		streamId,
+		provider,
+		duration,
 		created
 	}, (err, id) => {
 		if(err){
 			// E.g. because invalid field
-			return response.error('client/failed');
+			return response.error('timer/failed');
 		}
 		
 		// Output the ID:

@@ -8,6 +8,15 @@ module.exports = app => {
 	// Get the settings:
 	const settings = app.settings.email;
 	
+	if(!settings){
+		// No email config provided.
+		console.notice('No email config found. Email unavailable.');
+		app.email = {
+			send: (email, done) => done()
+		}
+		return;
+	}
+	
 	// create reusable transporter object using the default SMTP transport
 	let transporter = nodemailer.createTransport(settings.connect);
 	
