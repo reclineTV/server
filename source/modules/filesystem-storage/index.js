@@ -1,8 +1,8 @@
 var fs = require('fs');
+var parseRange = require('range-parser');
+
 
 module.exports=app => {	
-
-console.log("FS module");
 
 	class fileSystem{
 		
@@ -29,6 +29,8 @@ console.log("FS module");
 		/* Opens a stream for the given provider-specific content ID */
 		stream(id, options) {
 			
+			options = options || {};
+			
 			// Make it consistent:
 			id = id.replace('\\', '/');
 			
@@ -37,30 +39,59 @@ console.log("FS module");
 			var filePathWithoutType = id.substring(0, lastDot);
 			var fileType = id.substring(lastDot + 1);
 			
+			var file;
+			
+			if(options.webm){
+				file = 'vp9-opus.webm';
+			}else if(options.original){
+				file = 'original.' + fileType;
+			}else{
+				file = 'h264-aac.mp4';
+			}
+			
 			// Path:
-			var filePath = this.settings.path + '/' + filePathWithoutType + '/original.' + fileType;
+			var filePath = this.settings.path + '/' + filePathWithoutType + '/' + file;
 			
 			// Use a promise so we can wait for the stream to be ready to read
 			return new Promise((success, reject) => {
 				
-				// Open it as a readable stream:
-				var readStream = fs.createReadStream(filePath);
-
-				// Wait until it's valid:
-				readStream.on('open', function () {
-					// Resolve:
-					success(
-						{
-							stream: readStream,
-							contentType: app.mime.lookup(fileType)
+				fs.stat(filePath, (statErr, stats) => {
+					
+					if(statErr){
+						return reject(statErr);
+					}
+					
+					var readOptions = {};
+					
+					if(options.range){
+						var ranges = parseRange(stats.size, options.range);
+						
+						if(ranges.type == 'bytes'){
+							readOptions.start = ranges[0].start;
+							readOptions.end = ranges[0].end;
 						}
-					);
-				});
-				
-				readStream.on('error', function(err) {
-					reject(err);
-				});
-				
+					}
+					
+					// Open it as a readable stream:
+					var readStream = fs.createReadStream(filePath, readOptions);
+
+					// Wait until it's valid:
+					readStream.on('open', function () {
+						// Resolve:
+						success(
+							{
+								stream: readStream,
+								length: stats.size,
+								range: options.range ? readOptions : undefined,
+								contentType: 'mp4' // app.mime.lookup(fileType)
+							}
+						);
+					});
+					
+					readStream.on('error', function(err) {
+						reject(err);
+					});
+				});	
 			});
 			
 		}
