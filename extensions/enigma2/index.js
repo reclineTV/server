@@ -13,9 +13,6 @@ module.exports=app => {
 			}
 			
 			settings.url = 'http://' + settings.host + '/';
-			
-			//const fs = require("fs");
-			//app.transcode(this.stream('1:0:1:1E28:809:2:11A0000:0:0:0:')).pipe(fs.createWriteStream('tv-stream-transcoded-potc.mp4'));
 		}
 		
 		/* Sends a request to the enigma2 receiver */
@@ -41,7 +38,7 @@ module.exports=app => {
 		stream(id, options) {
 			return {
 				contentType: 'video/mp4',
-				stream: new FetchStream('http://' + this.settings.host + ':' + (this.settings.streamPort || 8001) + '/' + id)
+				stream: app.transcode(new FetchStream('http://' + this.settings.host + ':' + (this.settings.streamPort || 8001) + '/' + id), {})
 			};
 		}
 		
