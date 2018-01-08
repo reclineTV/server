@@ -46,7 +46,12 @@ function startRecline(settings) {
 			Or if you have multiple enigma2 TV receivers, the search can be sent to just one of them.
 			I.e. the way search is distributed becomes something the provider can define.
 		*/
-		search: {}
+		search: {},
+		
+		/*
+			Platform emulators for private cloud gaming
+		*/
+		emulators: {}
 	};
 	
 	// Step 2. Load the config. Using Object.assign here so we can essentially overwrite 
