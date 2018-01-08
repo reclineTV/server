@@ -40,13 +40,24 @@ module.exports=app => {
 			var fileType = id.substring(lastDot + 1);
 			
 			var file;
+			var contentType = null;
 			
 			if(options.webm){
 				file = 'vp9-opus.webm';
+				contentType = 'video/webm';
 			}else if(options.original){
 				file = 'original.' + fileType;
+				contentType = app.mime.lookup(fileType);
 			}else{
-				file = 'h264-aac.mp4';
+				contentType = app.mime.lookup(fileType);
+				
+				if(contentType.indexOf('audio') != -1){
+					// Audio files - just use the original one:
+					file = 'original.' + fileType;
+				}else{
+					file = 'h264-aac.mp4';
+					contentType = 'video/mp4';
+				}
 			}
 			
 			// Path:
@@ -83,7 +94,7 @@ module.exports=app => {
 								stream: readStream,
 								length: stats.size,
 								range: options.range ? readOptions : undefined,
-								contentType: 'mp4' // app.mime.lookup(fileType)
+								contentType
 							}
 						);
 					});
