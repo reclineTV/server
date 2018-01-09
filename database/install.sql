@@ -167,6 +167,7 @@ CREATE TABLE IF NOT EXISTS `media` (
   `created` datetime DEFAULT NULL,
   `deleted` int(1) NOT NULL DEFAULT 0,
   `createdBy` int(11) DEFAULT NULL,
+  `platform` int(11) DEFAULT NULL
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -184,6 +185,22 @@ CREATE TABLE IF NOT EXISTS `media_sets` (
   `createdBy` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Table structure for table `media_platforms`
+--
+DROP TABLE IF EXISTS `media_platforms`;
+CREATE TABLE `media_platforms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `emucode` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `media_platforms`
+--
+INSERT INTO `media_platforms` VALUES (1,'Wii','wii'),(2,'GameCube','gamecube'),(3,'PlayStation 1','ps1'),(4,'PlayStation 2','ps2'),(5,'PlayStation 3','ps3'),(6,'PlayStation 4','ps4'),(7,'Nintendo DS','ds'),(8,'Xbox 360','xbox360'),(9,'Xbox One','xboxone'),(10,'PlayStation Portable','psp'),(11,'Xbox','xbox'),(12,'Nintendo Entertainment System','nes'),(13,'Super Nintendo Entertainment System','snes'),(14,'Master System','mastersystem'),(15,'Wii U','wiiu');
 
 --
 -- Table structure for table `ranks`

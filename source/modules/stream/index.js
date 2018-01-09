@@ -3,32 +3,31 @@ var Transcoder = require('stream-transcoder');
 module.exports = app => {
 	
 	/*
-		Returns a promised stream for a particular video, identified by either its:
+		Returns a promised chunk of media metadata for the given reference, which can be:
 		* Media ID {id: NUMBER}
 		* ID and provider ref {id: 'PROVIDER_REF/MEDIA_REF'}
 		* An object {provider: 'PROVIDER_REF', id: 'MEDIA_REF'}
-		
 	*/
-	app.stream = options => {
+	app.getMedia = options => {
 		
 		return new Promise((success, failed) => {
 			
 			if(options.provider){
 				
 				// {provider: 'PROVIDER_REF', id: 'MEDIA_REF'}
-				loadStream(options.provider, options.id, options, success, failed);
+				loadMeta(options.provider, options.id, options, success, failed, {});
 				
 			}else if(options.id.length && options.id.indexOf('/') != -1){
 				
 				// {id: 'PROVIDER_REF/MEDIA_REF'
 				var parts = options.id.split('/',2);
-				loadStream(parts[0], parts[1], options, success, failed);
+				loadMeta(parts[0], parts[1], options, success, failed, {});
 				
 			}else{
 				
 				// Media row ID:
 				app.database.query(
-					'select url from media where id=?',
+					'select url, platform from media where id=?',
 					[options.id],
 					(err, res) => {
 						if(err || !res.length){
@@ -39,7 +38,7 @@ module.exports = app => {
 						// Load it now:
 						var mediaRow = res[0];
 						var urlParts = mediaRow.url.split('://', 2);
-						loadStream(urlParts[0], urlParts[1], options, success, failed);
+						loadMeta(urlParts[0], urlParts[1], options, success, failed, mediaRow);
 					}
 				);
 				
@@ -47,10 +46,20 @@ module.exports = app => {
 			
 		});
 		
+	}
+	
+	/*
+		Returns a promised stream for a particular video, identified by any media reference (see getMedia).
+	*/
+	app.stream = options => {
+		
+		// Get the media meta, then stream from the provider.
+		return app.getMedia(options).then(media => Promise.resolve(media.provider.stream(media.mediaRef, options)));
+		
 	};
 	
-	// Loads a stream from a particular provider, checking/ updating the cache.
-	function loadStream(providerRef, mediaRef, options, success, failed){
+	// Loads media meta from a particular provider, checking/ updating the cache.
+	function loadMeta(providerRef, mediaRef, options, success, failed, extendedMeta){
 		
 		// Get the provider:
 		var providers = app.search[providerRef];
@@ -78,16 +87,13 @@ module.exports = app => {
 			}
 		}
 		
-		// Does this provider allow caching? If so, try to hit its cache first.
-		
-		// Wait for the stream to be available:
-		return Promise.resolve(provider.stream(mediaRef, options))
-			// Then transcode it:
-			// .then(info => { info.stream = app.transcode(info.stream); info.contentType='video/mp4'; return info; })
-			// Then pass it to the success function:
-			.then(info => success(info))
-			// Or if it failed, call the fail method:
-			.catch(failed);
+		// Ok!
+		success({
+			...extendedMeta,
+			provider,
+			mediaRef,
+			getFileInfo: optionOverrides => provider.getFileInfo(mediaRef, optionOverrides || options)
+		});
 	}
 	
 };

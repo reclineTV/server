@@ -26,10 +26,11 @@ module.exports=app => {
 			};
 		}
 		
-		/* Opens a stream for the given provider-specific content ID */
-		stream(id, options) {
-			
-			options = options || {};
+		/*
+			Gets the filepath and contentType for the given media ID and options.
+			Provide options.webm (bool) and options.original (bool) to define if it should respond with a webm file/ the original.
+		*/
+		getFileInfo(id, options) {
 			
 			// Make it consistent:
 			id = id.replace('\\', '/');
@@ -63,10 +64,23 @@ module.exports=app => {
 			// Path:
 			var filePath = this.settings.path + '/' + filePathWithoutType + '/' + file;
 			
+			return {
+				contentType,
+				filePath
+			};
+		}
+		
+		/* Opens a stream for the given provider-specific content ID */
+		stream(id, options) {
+			
+			options = options || {};
+			
+			var info = this.getFileInfo(id, options);
+			
 			// Use a promise so we can wait for the stream to be ready to read
 			return new Promise((success, reject) => {
 				
-				fs.stat(filePath, (statErr, stats) => {
+				fs.stat(info.filePath, (statErr, stats) => {
 					
 					if(statErr){
 						return reject(statErr);
@@ -84,7 +98,7 @@ module.exports=app => {
 					}
 					
 					// Open it as a readable stream:
-					var readStream = fs.createReadStream(filePath, readOptions);
+					var readStream = fs.createReadStream(info.filePath, readOptions);
 
 					// Wait until it's valid:
 					readStream.on('open', function () {
@@ -94,14 +108,12 @@ module.exports=app => {
 								stream: readStream,
 								length: stats.size,
 								range: options.range ? readOptions : undefined,
-								contentType
+								contentType: info.contentType
 							}
 						);
 					});
 					
-					readStream.on('error', function(err) {
-						reject(err);
-					});
+					readStream.on('error', reject);
 				});	
 			});
 			
