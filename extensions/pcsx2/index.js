@@ -2,18 +2,17 @@ var exec = require('child_process').exec;
 
 module.exports=app => {
 	
-	if(!app.settings.dolphin){
+	if(!app.settings.pcsx2){
 		return;
 	}
 	
-	// Path to the dolphin exec:
-	var dolphinExec = app.settings.dolphin.path;
+	// Path to the pcsx2 exec:
+	var pcsx2Exec = app.settings.pcsx2.path;
 	
 	/*
-	Dolphin - the amazing Wii/ GameCube Emulator
-	Note! You should tick "Render to main window" in graphics settings to avoid displaying two separate windows
+	pcsx2 - the amazing PS2 Emulator
 	*/
-	class dolphin{
+	class pcsx2{
 		
 		constructor(settings) {
 			this.settings = settings;
@@ -22,7 +21,7 @@ module.exports=app => {
 		start(media, options) {
 			// Must be a file provider only:
 			if(!media.getFileInfo){
-				throw new Error('Dolphin can only play ISO\'s from your media library (the provider must have a "getFileInfo" method).');
+				throw new Error('PCSX2 can only play ISO\'s from your media library (the provider must have a "getFileInfo" method).');
 			}
 			
 			// Get the raw path to the ISO:
@@ -31,7 +30,7 @@ module.exports=app => {
 			return new Promise((success, reject) => {
 				
 				// Start it up:
-				exec('"' + dolphinExec + '" -e "' + isoPath + '"', function callback(error, stdout, stderr){
+				exec('"' + pcsx2Exec + '" "' + isoPath + '"', function callback(error, stdout, stderr){
 					if(error){
 						return reject(error);
 					}
@@ -49,7 +48,7 @@ module.exports=app => {
 		
 	}
 	
-	// Hook up the Dolphin emulator:
-	app.emulators.gamecube = app.emulators.wii = new dolphin();
+	// Hook up the pcsx2 emulator:
+	app.emulators.ps2 = new pcsx2();
 	
 };
