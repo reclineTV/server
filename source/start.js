@@ -25,6 +25,28 @@ var moduleLoader = require('./modules/module-loader');
 // The startup function. A user optionally provides the config into this.
 function startRecline(settings) {
 	
+	if(!settings){
+		settings = {};
+	}
+	
+	if(settings.loadCommandLine){
+		// Load the command line args:
+		const commandLineArgs = require('command-line-args');
+		
+		settings.commandLine = commandLineArgs([
+			{ name: 'config', alias: 'c', type: String }
+		]);
+		
+		// Get the config paths:
+		settings.configPath = settings.configPath || settings.commandLine.config;
+	}
+	
+	if(!settings.configPath){
+		settings.configPath = './configAndData';
+	}
+	
+	settings.configPath = path.resolve(settings.configPath);
+	
 	// Setup express (the web server):
 	var expressHttp = express();
 	expressHttp.use(logger('dev'));
@@ -56,7 +78,7 @@ function startRecline(settings) {
 	
 	// Step 2. Load the config. Using Object.assign here so we can essentially overwrite 
 	// defaults with the optional config being passed in.
-	app.settings = Object.assign(settings || {}, require('../configAndData/settings-default.js'));
+	app.settings = Object.assign(settings || {}, require( settings.configPath + '/settings.js'));
 	
 	// Return a promise so the caller can know when recline is ready to go:
 	return new Promise((success, failed) => {
@@ -172,7 +194,9 @@ function startRecline(settings) {
 // Were we started directly from the command line, or included as part of some other package?
 if (require.main === module) {
 	// We're being run directly from the command line. Immediately call the startup function.
-	startRecline();
+	startRecline({
+		loadCommandLine: true
+	});
 }else{
 	// Somebody is including us. Export the function.
 	module.exports = startRecline;

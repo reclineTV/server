@@ -33,7 +33,7 @@ module.exports = {
 			// This translates file://A/1.mp3 translates to ./configAndData/media/1/original.mp3
 			type: 'file',
 			name: 'A',
-			path: 'E:\\Media\\Recline'
+			path: './configAndData/media'
 		},
 		{
 			type: 'enigma2',
@@ -53,22 +53,22 @@ module.exports = {
 	
 	// Dolphin emulator:
 	dolphin: {
-		path: 'E:\\Media\\Emulators\\Dolphin\\Dolphin.exe'
+		path: './configAndData/Emulators/Dolphin/Dolphin.exe'
 	},
 	
 	// PCSX2 emulator:
 	pcsx2: {
-		path: 'E:\\Media\\Emulators\\PCSX2\\pcsx2.exe'
+		path: './configAndData/Emulators/PCSX2/pcsx2.exe'
 	},
 	
 	// ePSXe emulator:
 	epsxe: {
-		path: 'E:\\Media\\Emulators\\ePSXe\\ePSXe.exe'
+		path: './configAndData/Emulators/ePSXe/ePSXe.exe'
 	},
 	
 	// Themoviedb:
 	themoviedb: {
-		key: 'd68e56f794a5557341f8d6ad00a4ae56'
+		key: '......'
 	},
 	
 	// SMS send/ receive:

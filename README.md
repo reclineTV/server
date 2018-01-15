@@ -17,4 +17,9 @@ The server is a beautifully simple http JSON API. This makes it great to automat
 
 # Installation
 
-Recline currently works with a MySQL/ MariaDB database. You'll need to create an empty database and configure it in source/settings.js (this will be getting exposed from the module shortly).
+```
+npm install -g recline-server
+recline
+```
+
+Recline currently works with a MySQL/ MariaDB database which isn't currently setup automatically (coming shortly!). You'll need to run install.sql and configure the connection in configAndData/settings.js
