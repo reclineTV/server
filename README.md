@@ -17,9 +17,11 @@ The server is a beautifully simple http JSON API. This makes it great to automat
 
 # Installation
 
+First, install the full version ffmpeg (with at least AAC and H264 support).
+
 ```
 npm install -g recline-server
 recline
 ```
 
-Recline currently works with a MySQL/ MariaDB database which isn't currently setup automatically (coming shortly!). You'll need to run install.sql and configure the connection in configAndData/settings.js
+Recline currently works with a MySQL/ MariaDB database which isn't currently setup automatically (coming shortly!). You'll need to run install.sql and configure the connection in configAndData/settings.js.
