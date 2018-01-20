@@ -15,7 +15,7 @@ module.exports = app => (request, response) => {
 		[id],
 		(err, results) => {
 			
-			if(err){
+			if(err || !results.length){
 				return response.error('media/error', err);
 			}
 			

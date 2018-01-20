@@ -26,7 +26,7 @@ module.exports = app => new Promise((success, reject) => {
 				resp.error = (message, detail) => {
 					console.log(message, detail);
 					
-					resp.status(400).send({type: message});
+					return resp.status(400).send({type: message});
 				};
 				
 				// Load the current user:
