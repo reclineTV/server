@@ -19,7 +19,7 @@ module.exports = app => (request, response) => {
 		// Verify the password:
 		hashAndSalt(password).verifyAgainst(user.passhash, (error, verified) => {
 			if(error || !verified)
-				return response.error('user/nonExistent');
+				return response.error('user/nonExistent', error);
 			
 			// Success!
 			
@@ -29,7 +29,7 @@ module.exports = app => (request, response) => {
 			[token, user.id], (err, results) => {
 				
 				if(error)
-					return response.error('token/failed');
+					return response.error('token/failed', error);
 				
 				// Set the cookie now:
 				response.cookie('user', user.id + '@' + token, { maxAge: 31557600, httpOnly: true });

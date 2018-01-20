@@ -15,6 +15,10 @@ module.exports = app => (request, response) => {
 		'select * from extensions where title like ?',
 		[query],
 		(err, results) => {
+			if(err){
+				return response.error('media/error', err);
+			}
+			
 			response.send(results);
 		}
 	);

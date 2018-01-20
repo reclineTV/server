@@ -26,7 +26,7 @@ module.exports = app => (request, response) => {
 	}, (err, id) => {
 		if(err){
 			// E.g. because invalid field
-			return response.error('history/failed');
+			return response.error('history/failed', err);
 		}
 		
 		// Output the ID:

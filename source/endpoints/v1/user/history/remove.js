@@ -16,7 +16,7 @@ module.exports = app => (request, response) => {
 	app.database.query('UPDATE history set deleted=1 where id=? and userId=?', [id, request.user.id], (err, results) => {
 		if(err){
 			// E.g. it didn't exist.
-			return response.error('history/notFound');
+			return response.error('history/notFound', err);
 		}
 		
 		// Ok!

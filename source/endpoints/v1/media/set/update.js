@@ -28,7 +28,7 @@ module.exports = app => (request, response) => {
 	}, (err, id) => {
 		if(err){
 			// E.g. because invalid field
-			return response.error('mediaSet/failed');
+			return response.error('mediaSet/failed', err);
 		}
 		
 		// Output the ID:

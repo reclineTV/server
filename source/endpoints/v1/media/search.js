@@ -18,6 +18,9 @@ module.exports = app => (request, response) => {
 			'select * from media where type=? and deleted=0 and parentContentId is null',
 			[type, parentSet],
 			(err, results) => {
+				if(err){
+					return response.error('media/error', err);
+				}
 				response.send(results);
 			}
 		);
@@ -31,6 +34,11 @@ module.exports = app => (request, response) => {
 		'select * from media where `title` like ? and deleted=0 and parentContentId' + (parentSet ? '=?' : ' is null'),
 		[query, parentSet],
 		(err, results) => {
+			
+			if(err){
+				return response.error('media/error', err);
+			}
+			
 			response.send(results);
 		}
 	);

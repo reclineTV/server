@@ -3,10 +3,7 @@ var mysql = require('mysql');
 function connect(options) {
 
 	// Create a connection object:
-	var connection = mysql.createConnection(options);
-
-	// Connect it now:
-	connection.connect();
+	var connection = mysql.createPool(options);
 	
 	// Ok!
 	return connection;
@@ -104,7 +101,40 @@ module.exports = app => {
 	
 	var dbSettings = Object.assign({multipleStatements: true}, config);
 	
+	if(!dbSettings.connectionLimit){
+		dbSettings.connectionLimit = 10;
+	}
+	
 	var exports = connect(dbSettings);
+	
+	// Setup query func:
+	exports.query = function(query, args, cb){
+		if(!cb){
+			cb = args;
+			args = [];
+		}
+		
+		// Get link from pool:
+		exports.getConnection(function(err, connection){
+			
+			if(err){
+				cb(err);
+				return;
+			}
+			
+			// Run the query:
+			connection.query(query, args, function(...argset){
+				
+				// Release the link:
+				connection.release();
+				
+				// Run the callback:
+				cb(...argset);
+				
+			});
+			
+		});
+	};
 	
 	// Add our extra methods:
 	exports.insertString = insertString;

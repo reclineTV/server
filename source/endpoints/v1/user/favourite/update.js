@@ -24,7 +24,7 @@ module.exports = app => (request, response) => {
 	}, (err, id) => {
 		if(err){
 			// E.g. because invalid field
-			return response.error('favourite/failed');
+			return response.error('favourite/failed', err);
 		}
 		
 		// Output the ID:

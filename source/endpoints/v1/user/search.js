@@ -6,6 +6,9 @@ module.exports = app => (request, response) => {
 	}
 	
 	app.database.query('select * from users order by displayName', (err, results) => {
+		if(err){
+			return response.error('user/error', err);
+		}
 		
 		response.send(results.map(app.outputUser));
 		

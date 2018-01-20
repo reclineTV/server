@@ -16,7 +16,7 @@ module.exports = app => (request, response) => {
 	app.database.query('DELETE FROM uploads where id=?', [id], (err, results) => {
 		if(err){
 			// E.g. it didn't exist.
-			return response.error('extension/notFound');
+			return response.error('upload/notFound', err);
 		}
 		
 		// Ok!

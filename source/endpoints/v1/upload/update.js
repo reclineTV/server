@@ -25,7 +25,7 @@ module.exports = app => (request, response) => {
 	}, (err, id) => {
 		if(err){
 			// E.g. because invalid field
-			return response.error('extension/failed');
+			return response.error('upload/failed', err);
 		}
 		
 		// Output the ID:

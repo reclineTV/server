@@ -16,7 +16,7 @@ module.exports = app => (request, response) => {
 	app.database.query('DELETE FROM credits WHERE id=?', [id], (err, results) => {
 		if(err){
 			// E.g. it didn't exist.
-			return response.error('credit/notFound');
+			return response.error('credit/notFound', err);
 		}
 		
 		// Ok!

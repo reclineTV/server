@@ -15,6 +15,10 @@ module.exports = app => (request, response) => {
 		'select * from credited_people where name like ? and deleted=0',
 		[query],
 		(err, results) => {
+			if(err){
+				return response.error('media/error', err);
+			}
+			
 			response.send(results);
 		}
 	);

@@ -16,7 +16,7 @@ module.exports = app => (request, response) => {
 	app.database.query('DELETE from timers WHERE id=?', [id], (err, results) => {
 		if(err){
 			// E.g. it didn't exist.
-			return response.error('timer/notFound');
+			return response.error('timer/notFound', err);
 		}
 		
 		// Ok!

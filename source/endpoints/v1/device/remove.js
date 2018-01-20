@@ -16,7 +16,7 @@ module.exports = app => (request, response) => {
 	app.database.query('UPDATE devices SET deleted=1 WHERE id=?', [id], (err, results) => {
 		if(err){
 			// E.g. it didn't exist.
-			return response.error('device/notFound');
+			return response.error('device/notFound', err);
 		}
 		
 		// Ok!

@@ -10,6 +10,9 @@ module.exports = app => (request, response) => {
 	} = request.body;
 	
 	app.database.query('select id, tag from media_tags where mediaId=?', [mediaId], (err, results) => {
+		if(err){
+			return response.error('media/error', err);
+		}
 		
 		response.send(results);
 		

@@ -20,8 +20,8 @@ module.exports = app => (request, response) => {
 	
 	app.database.query("SELECT expires FROM forgottokens WHERE token=? and user=?",[token, userID], (err, results) => {
 		
-		if(!results.length){
-			return response.error('reset/invalid');
+		if(err || !results.length){
+			return response.error('reset/invalid', err);
 		}
 		
 		var row = results[0];
@@ -34,13 +34,13 @@ module.exports = app => (request, response) => {
 		hashAndSalt(password, (err, hash) => {
 			
 			if(err){
-				return response.error('token/invalid');
+				return response.error('token/invalid', err);
 			}
 			
 			app.database.query('UPDATE users SET passhash=? where id=?', [hash, userID], (err, results) => {
 				
 				if(err){
-					return response.error('token/invalid');
+					return response.error('token/invalid', err);
 				}
 				
 				// Ok!

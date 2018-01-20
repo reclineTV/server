@@ -47,7 +47,7 @@ module.exports = app => (request, response) => {
 	}, (err, id) => {
 		if(err){
 			// E.g. because invalid field
-			return response.error('media/failed');
+			return response.error('media/failed', err);
 		}
 		
 		// Output the ID:

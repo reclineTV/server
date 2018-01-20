@@ -29,13 +29,11 @@ module.exports = app => (request, response) => {
 		}).then(info => {
 			response.send({success: true});
 		}).catch(e => {
-			console.log(e);
-			response.error('stream/notFound')
+			response.error('stream/notFound', e)
 		});
 		
 	}catch(e){
 		// Doesn't exist. Error:
-		console.log(e);
-		return response.error('stream/notFound');
+		return response.error('stream/notFound', e);
 	}
 };

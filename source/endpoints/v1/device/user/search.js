@@ -16,6 +16,10 @@ module.exports = app => (request, response) => {
 		'select client_users.* from client_users left join users on client_users.userId = users.id where `displayName` like ?',
 		[query],
 		(err, results) => {
+			if(err){
+				return response.error('media/error', err);
+			}
+			
 			response.send(results);
 		}
 	);

@@ -6,6 +6,9 @@ module.exports = app => (request, response) => {
 	}
 	
 	app.database.query('select id, created, contentId, contentType from history where userId=? and deleted=0', [request.user.id], (err, results) => {
+		if(err){
+			return response.error('media/error', err);
+		}
 		
 		response.send(results);
 		

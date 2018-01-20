@@ -16,7 +16,7 @@ module.exports = app => (request, response) => {
 	app.database.query('UPDATE media SET deleted=1 where id=?', [id], (err, results) => {
 		if(err){
 			// E.g. it didn't exist.
-			return response.error('media/notFound');
+			return response.error('media/notFound', err);
 		}
 		
 		// Ok!

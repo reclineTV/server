@@ -46,11 +46,10 @@ module.exports = app => (request, response) => {
 				}
 			}
 			info.stream.pipe(response);
-		}).catch(e => {console.log(e);response.error('stream/notFound')});
+		}).catch(e => response.error('stream/notFound', e));
 		
 	}catch(e){
 		// Doesn't exist. Error:
-		console.log(e);
-		return response.error('stream/notFound');
+		return response.error('stream/notFound', e);
 	}
 };

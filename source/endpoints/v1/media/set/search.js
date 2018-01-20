@@ -12,6 +12,9 @@ module.exports = app => (request, response) => {
 	query=(query || '') + '%';
 	
 	app.database.query('select * from media_sets where `title` like ? and deleted=0', [query], (err, results) => {
+		if(err){
+			return response.error('media/error', err);
+		}
 		
 		response.send(results);
 		

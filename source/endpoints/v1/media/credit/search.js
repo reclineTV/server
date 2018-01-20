@@ -15,6 +15,10 @@ module.exports = app => (request, response) => {
 		'select * from credits where mediaId=? or personId=?',
 		[mediaId, personId],
 		(err, results) => {
+			if(err){
+				return response.error('media/error', err);
+			}
+			
 			response.send(results);
 		}
 	);

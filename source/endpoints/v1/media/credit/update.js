@@ -30,7 +30,7 @@ module.exports = app => (request, response) => {
 	}, (err, id) => {
 		if(err){
 			// E.g. because invalid field
-			return response.error('credit/failed');
+			return response.error('credit/failed', err);
 		}
 		
 		// Output the ID:

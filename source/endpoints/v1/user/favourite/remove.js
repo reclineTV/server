@@ -16,7 +16,7 @@ module.exports = app => (request, response) => {
 	app.database.query('UPDATE favourites set deleted=1 where id=? and userId=?', [id, request.user.id], (err, results) => {
 		if(err){
 			// E.g. it didn't exist.
-			return response.error('favourite/notFound');
+			return response.error('favourite/notFound', err);
 		}
 		
 		// Ok!

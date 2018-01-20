@@ -15,6 +15,10 @@ module.exports = app => (request, response) => {
 		'select * from uploads where `path` like ?',
 		[query],
 		(err, results) => {
+			if(err){
+				return response.error('upload/error', err);
+			}
+			
 			response.send(results);
 		}
 	);

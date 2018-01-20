@@ -16,6 +16,10 @@ module.exports = app => (request, response) => {
 		'select * from devices where `name` like ?',
 		[query],
 		(err, results) => {
+			if(err){
+				return response.error('media/error', err);
+			}
+			
 			response.send(results);
 		}
 	);

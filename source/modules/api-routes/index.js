@@ -23,7 +23,11 @@ module.exports = app => new Promise((success, reject) => {
 			var requestMethodWithAuth = (req, resp) => {
 				
 				// Also append the error helper:
-				resp.error = message => resp.status(400).send({type: message});
+				resp.error = (message, detail) => {
+					console.log(message, detail);
+					
+					resp.status(400).send({type: message});
+				};
 				
 				// Load the current user:
 				app.loadUser(req, user => {

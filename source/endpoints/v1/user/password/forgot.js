@@ -29,7 +29,7 @@ module.exports = app => (request, response) => {
 			[token, user.id],
 			(err, results) => {
 				if(err){
-					return response.error('token/invalid');
+					return response.error('token/invalid', err);
 				}
 				
 				// Send the email next:
@@ -46,7 +46,7 @@ module.exports = app => (request, response) => {
 					response.send({
 					});
 					
-				});
+				}).catch(e => response.error('token/error', e))
 				
 			}
 		);

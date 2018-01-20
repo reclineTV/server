@@ -12,7 +12,7 @@ module.exports = app => (request, response) => {
 		[token, userID],
 		(err, results) => {
 			if(err || !results.length){
-				return response.error('reset/invalid');
+				return response.error('reset/invalid', err);
 			}
 			
 			var row = results[0];

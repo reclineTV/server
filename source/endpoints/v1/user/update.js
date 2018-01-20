@@ -31,7 +31,7 @@ module.exports = app => (request, response) => {
 		}, (err, id) => {
 			if(err){
 				// E.g. because invalid ID
-				return response.error('user/failed');
+				return response.error('user/failed', err);
 			}
 			
 			// Output the ID:
@@ -53,7 +53,7 @@ module.exports = app => (request, response) => {
 		
 		hashAndSalt(password).hash(function(error, hash) {
 			if(error){
-				return response.error('passwords/mustMatch');
+				return response.error('passwords/mustMatch', error);
 			}
 			password = hash;
 			created = new Date();
