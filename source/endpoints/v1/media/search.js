@@ -15,7 +15,7 @@ module.exports = app => (request, response) => {
 	
 	if(!query){
 		app.database.query(
-			'select * from media where type=? and deleted=0 and parentContentId is null',
+			'select * from media where type=? and deleted=0 and parentContentId' + (parentSet ? '=?' : ' is null'),
 			[type, parentSet],
 			(err, results) => {
 				if(err){

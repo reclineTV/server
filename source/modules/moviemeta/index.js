@@ -56,7 +56,6 @@ module.exports = app => {
 										.then(callback);
 								}
 							)
-							
 						});
 						
 					}, success);
