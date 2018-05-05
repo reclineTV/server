@@ -3,7 +3,12 @@ var parseRange = require('range-parser');
 
 
 module.exports=app => {	
-
+	
+	// When a range header is provided, this restricts the max payload size.
+	// It essentially stops low RAM clients from blowing their memory limit, 
+	// as they'll tend to request the entire file.
+	var MAX_RANGE_SIZE = 5 * 1024 * 1024;
+	
 	class fileSystem{
 		
 		constructor(settings) {
@@ -94,6 +99,13 @@ module.exports=app => {
 						if(ranges.type == 'bytes'){
 							readOptions.start = ranges[0].start;
 							readOptions.end = ranges[0].end;
+							
+							// Restrict to 5mb chunks (supporting low RAM clients):
+							if((readOptions.end - readOptions.start) > MAX_RANGE_SIZE){
+								// Range is too big - restrict it:
+								readOptions.end = readOptions.start + MAX_RANGE_SIZE;
+							}
+							
 						}
 					}
 					
