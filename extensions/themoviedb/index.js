@@ -33,7 +33,7 @@ module.exports=app => {
 		}
 		
 		image(imageId){
-			return new FetchStream('https://image.tmdb.org/t/p/w2560/'+imageId)
+			return new FetchStream('https://image.tmdb.org/t/p/original'+imageId)
 		}
 		
 	}
