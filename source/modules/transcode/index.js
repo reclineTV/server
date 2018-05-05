@@ -6,6 +6,8 @@ var async = require("async");
 
 module.exports = app => {
 	
+	app.Transcoder = Transcoder;
+	
 	/*
 		Transcodes the given (video) stream such that all content stored in recline is the same format.
 		Can be turned off such that no transcoding happens via {mode: 'none'} 
