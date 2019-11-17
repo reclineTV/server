@@ -1,49 +1,29 @@
 {
   "name": "recline-server",
-  "version": "0.0.7",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/reclineTV/server.git"
-  },
-  "scripts": {
-    "start": "node ./source/start.js"
-  },
-  "description": "Recline",
-  "author": {
-    "name": "Luke Briggs"
-  },
+  "version": "1.0.0",
+  "description": "The Recline media server.",
+  "main": "source/start.js",
   "preferGlobal": true,
   "bin": {
     "recline": "./bin/recline.js"
   },
   "dependencies": {
-    "async": "^2.6.0",
-    "body-parser": "~1.8.1",
-    "colors": "^1.1.2",
-    "command-line-args": "^4.0.7",
-    "cookie-parser": "~1.3.3",
-    "debug": "~2.0.0",
-    "express": "~4.9.0",
-    "fetch": "^1.1.0",
-    "ffprobe": "^1.1.0",
-    "glob": "^7.1.2",
-    "jsonfile": "^4.0.0",
-    "morgan": "~1.3.0",
-    "moviedb-promise": "^1.2.1",
-    "mysql": "^2.14.1",
-    "node-fetch": "^1.7.3",
-    "node-rdpjs": "^0.3.0",
-    "nodemailer": "^4.0.1",
-    "os-service": "^1.5.0",
-    "password-hash-and-salt": "^0.1.4",
-    "randomstring": "^1.1.5",
-    "range-parser": "^1.2.0",
-    "recursive-readdir": "^2.2.1",
-    "resize-img": "^1.1.2",
-    "stream-body-parser": "0.0.1",
-    "stream-transcoder": "0.0.5",
-    "tempfile": "^2.0.0",
-    "virtualbox": "^0.1.3",
-    "ytdl-core": "^0.18.2"
-  }
+    "recline-common": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reclineTV/server.git"
+  },
+  "author": {
+    "name": "Luke Briggs"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reclineTV/server/issues"
+  },
+  "homepage": "https://github.com/reclineTV/server#readme"
 }

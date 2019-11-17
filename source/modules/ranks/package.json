@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "./modules/database": "~1.0.0",
-    "./modules/user": "~1.0.0"
-  }
-}

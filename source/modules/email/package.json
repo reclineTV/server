@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "./modules/database": "~1.0.0",
-    "./modules/templates": "~1.0.0"
-  }
-}
