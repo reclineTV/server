@@ -1,6 +1,6 @@
 {
   "name": "recline-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The Recline media server.",
   "main": "source/start.js",
   "preferGlobal": true,
