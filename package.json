@@ -8,7 +8,7 @@
     "recline": "./bin/recline.js"
   },
   "dependencies": {
-    "recline-common": "^1.0.2"
+    "recline-common": "^1.0.3"
   },
   "devDependencies": {},
   "scripts": {
